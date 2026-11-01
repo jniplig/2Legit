@@ -36,8 +36,8 @@ controls:
     layer: engineering
     min_tier: T1
     standards: ["NIST SSDF PS.1", "OpenSSF Scorecard: Branch-Protection"]
-    evidence: []
-    status: planned
+    evidence: [docs/evidence/branch-protection.json]
+    status: implemented
   - id: ENG-02
     title: CI runs lint, tests, matrix validation and TRUST.md freshness on every PR
     layer: engineering
