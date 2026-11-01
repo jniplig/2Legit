@@ -89,6 +89,13 @@ controls:
     standards: ["ISO/IEC 42001 (AI management system)", "NIST AI RMF: GOVERN"]
     evidence: [docs/AI_USE_POLICY.md]
     status: implemented
+  - id: AI-06
+    title: Lint and tests run automatically after every AI edit
+    layer: ai
+    min_tier: T1
+    standards: ["NIST SSDF PW.7", "NIST SSDF PW.8"]
+    evidence: [.claude/settings.json]
+    status: implemented
   - id: AI-05
     title: Apps that call LLMs version prompts and keep an eval set with expected outputs
     layer: ai

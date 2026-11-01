@@ -3,6 +3,8 @@
 Format follows Keep a Changelog. Versions follow Semantic Versioning.
 
 ## [Unreleased]
+### Added
+- Claude Code hook that runs lint and tests after every AI edit (control AI-06)
 
 ## [0.1.0]
 ### Added

@@ -16,13 +16,13 @@ How to read it:
 
 ## Summary
 
-**16 of 22 controls implemented (73%).**
+**17 of 23 controls implemented (74%).**
 
 | Tier | Controls expected | Implemented |
 |---|---|---|
 | T0 | 2 | 2 |
-| T1 | 17 | 16 |
-| T2 | 22 | 16 |
+| T1 | 18 | 17 |
+| T2 | 23 | 17 |
 
 ## Governance
 
@@ -50,6 +50,7 @@ How to read it:
 | AI-03 | AI-generated changes are reviewed by someone other than the generator | T1 | NIST SSDF PW.7<br>NIST AI RMF: MEASURE | Implemented | [.github/pull_request_template.md](.github/pull_request_template.md)<br>[docs/AI_USE_POLICY.md](docs/AI_USE_POLICY.md) |
 | AI-04 | A written AI-use policy defines allowed use, review rules and data limits | T1 | ISO/IEC 42001 (AI management system)<br>NIST AI RMF: GOVERN | Implemented | [docs/AI_USE_POLICY.md](docs/AI_USE_POLICY.md) |
 | AI-05 | Apps that call LLMs version prompts and keep an eval set with expected outputs | T2 | NIST AI RMF: MEASURE<br>OWASP Top 10 for LLM Applications | Planned | none yet |
+| AI-06 | Lint and tests run automatically after every AI edit | T1 | NIST SSDF PW.7<br>NIST SSDF PW.8 | Implemented | [.claude/settings.json](.claude/settings.json) |
 
 ## Security
 
