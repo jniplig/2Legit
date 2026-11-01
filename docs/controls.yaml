@@ -1,0 +1,176 @@
+# 2Legit control matrix: single source of truth for TRUST.md.
+# Rules:
+#   - status "implemented" requires every evidence path to exist in the repo.
+#   - status "planned" is never claimed in TRUST.md as in place.
+#   - "standards" entries are alignment references, not certification claims.
+#     Verify references against the current edition before external use.
+#   - min_tier = the lowest tier at which the control is expected (T0 < T1 < T2).
+
+controls:
+  # ---- Governance (SDLC, ISO/IEC/IEEE 12207) ----
+  - id: GOV-01
+    title: Project charter states purpose, owner, tier and data classification
+    layer: governance
+    min_tier: T1
+    standards: ["ISO/IEC/IEEE 12207 (planning and project assessment processes)"]
+    evidence: [docs/CHARTER.md]
+    status: implemented
+  - id: GOV-02
+    title: Significant decisions are recorded with context and consequences
+    layer: governance
+    min_tier: T1
+    standards: ["ISO/IEC/IEEE 12207 (decision management process)"]
+    evidence: [docs/DECISIONS.md]
+    status: implemented
+  - id: GOV-03
+    title: Assurance tier is declared and lifecycle gates are defined per tier
+    layer: governance
+    min_tier: T0
+    standards: ["ISO/IEC/IEEE 12207 (life cycle model management)"]
+    evidence: [docs/TIERS.md]
+    status: implemented
+
+  # ---- Engineering controls (DevOps, CI/CD) ----
+  - id: ENG-01
+    title: Default branch is protected; changes merge by pull request only
+    layer: engineering
+    min_tier: T1
+    standards: ["NIST SSDF PS.1", "OpenSSF Scorecard: Branch-Protection"]
+    evidence: []
+    status: planned
+  - id: ENG-02
+    title: CI runs lint, tests, matrix validation and TRUST.md freshness on every PR
+    layer: engineering
+    min_tier: T1
+    standards: ["NIST SSDF PO.3", "DevOps continuous integration practice"]
+    evidence: [.github/workflows/assurance.yml]
+    status: implemented
+  - id: ENG-03
+    title: Pre-commit hooks block common defects before commit
+    layer: engineering
+    min_tier: T1
+    standards: ["NIST SSDF PW.7"]
+    evidence: [.pre-commit-config.yaml]
+    status: implemented
+  - id: ENG-04
+    title: Automated tests exist and run in CI
+    layer: engineering
+    min_tier: T1
+    standards: ["NIST SSDF PW.8", "ISO/IEC/IEEE 12207 (verification process)"]
+    evidence: [tests/test_controls.py]
+    status: implemented
+
+  # ---- AI controls (anti-slop) ----
+  - id: AI-01
+    title: A written task brief precedes AI-generated code
+    layer: ai
+    min_tier: T1
+    standards: ["NIST AI RMF: GOVERN", "NIST SSDF PW.1"]
+    evidence: [docs/templates/task-brief.md]
+    status: implemented
+  - id: AI-02
+    title: Every pull request declares whether and how AI was used
+    layer: ai
+    min_tier: T1
+    standards: ["NIST AI RMF: GOVERN", "ISO/IEC 42001 (AI management system)"]
+    evidence: [.github/pull_request_template.md]
+    status: implemented
+  - id: AI-03
+    title: AI-generated changes are reviewed by someone other than the generator
+    layer: ai
+    min_tier: T1
+    standards: ["NIST SSDF PW.7", "NIST AI RMF: MEASURE"]
+    evidence: [.github/pull_request_template.md, docs/AI_USE_POLICY.md]
+    status: implemented
+  - id: AI-04
+    title: A written AI-use policy defines allowed use, review rules and data limits
+    layer: ai
+    min_tier: T1
+    standards: ["ISO/IEC 42001 (AI management system)", "NIST AI RMF: GOVERN"]
+    evidence: [docs/AI_USE_POLICY.md]
+    status: implemented
+  - id: AI-05
+    title: Apps that call LLMs version prompts and keep an eval set with expected outputs
+    layer: ai
+    min_tier: T2
+    standards: ["NIST AI RMF: MEASURE", "OWASP Top 10 for LLM Applications"]
+    evidence: []
+    status: planned
+
+  # ---- Security (NIST SSDF) ----
+  - id: SEC-01
+    title: Secret scanning runs before every commit
+    layer: security
+    min_tier: T0
+    standards: ["NIST SSDF PS.1", "OpenSSF Scorecard: Vulnerabilities"]
+    evidence: [.pre-commit-config.yaml]
+    status: implemented
+  - id: SEC-02
+    title: Dependency updates are automated
+    layer: security
+    min_tier: T1
+    standards: ["NIST SSDF RV.1", "OpenSSF Scorecard: Dependency-Update-Tool"]
+    evidence: [.github/dependabot.yml]
+    status: implemented
+  - id: SEC-03
+    title: A security policy tells people how to report vulnerabilities
+    layer: security
+    min_tier: T1
+    standards: ["NIST SSDF RV.1", "OpenSSF Scorecard: Security-Policy"]
+    evidence: [SECURITY.md]
+    status: implemented
+  - id: SEC-04
+    title: A software bill of materials is published with each release
+    layer: security
+    min_tier: T2
+    standards: ["NIST SSDF PS.3"]
+    evidence: []
+    status: planned
+
+  # ---- Operations (ITIL 4) ----
+  - id: OPS-01
+    title: Changes are recorded in a changelog with each release
+    layer: operations
+    min_tier: T1
+    standards: ["ITIL 4: Change enablement", "ITIL 4: Release management"]
+    evidence: [CHANGELOG.md]
+    status: implemented
+  - id: OPS-02
+    title: Incidents and their root causes are logged
+    layer: operations
+    min_tier: T1
+    standards: ["ITIL 4: Incident management", "ITIL 4: Problem management"]
+    evidence: [docs/INCIDENTS.md]
+    status: implemented
+  - id: OPS-03
+    title: A runbook documents deploy, rollback and recovery
+    layer: operations
+    min_tier: T2
+    standards: ["ITIL 4: Service continuity management"]
+    evidence: []
+    status: planned
+
+  # ---- Measurement (DORA) ----
+  - id: MEA-01
+    title: Delivery metrics (deploy frequency, lead time, change failure rate, recovery time) are reported
+    layer: measurement
+    min_tier: T2
+    standards: ["DORA four key metrics"]
+    evidence: []
+    status: planned
+
+  # ---- Trust ----
+  - id: TRU-01
+    title: TRUST.md is generated from this matrix and never hand-edited
+    layer: trust
+    min_tier: T1
+    standards: ["Evidence-based assurance practice"]
+    evidence: [TRUST.md, scripts/generate_trust.py]
+    status: implemented
+  - id: TRU-02
+    title: Each release ships an evidence bundle (test results, SBOM, review record, AI-use summary)
+    layer: trust
+    min_tier: T2
+    standards: ["NIST SSDF PS.3"]
+    evidence: []
+    status: planned

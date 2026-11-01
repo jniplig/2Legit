@@ -1,0 +1,28 @@
+name: assurance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check .
+      - name: Tests
+        run: pytest
+      - name: Validate control matrix and evidence
+        run: python -m scripts.validate_controls
+      - name: Check TRUST.md is up to date
+        run: python -m scripts.generate_trust --check
