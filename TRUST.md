@@ -16,13 +16,13 @@ How to read it:
 
 ## Summary
 
-**17 of 23 controls implemented (74%).**
+**18 of 23 controls implemented (78%).**
 
 | Tier | Controls expected | Implemented |
 |---|---|---|
 | T0 | 2 | 2 |
-| T1 | 18 | 17 |
-| T2 | 23 | 17 |
+| T1 | 18 | 18 |
+| T2 | 23 | 18 |
 
 ## Governance
 
@@ -36,7 +36,7 @@ How to read it:
 
 | ID | Control | From tier | Aligned with | Status | Evidence |
 |---|---|---|---|---|---|
-| ENG-01 | Default branch is protected; changes merge by pull request only | T1 | NIST SSDF PS.1<br>OpenSSF Scorecard: Branch-Protection | Planned | none yet |
+| ENG-01 | Default branch is protected; changes merge by pull request only | T1 | NIST SSDF PS.1<br>OpenSSF Scorecard: Branch-Protection | Implemented | [docs/evidence/branch-protection.json](docs/evidence/branch-protection.json) |
 | ENG-02 | CI runs lint, tests, matrix validation and TRUST.md freshness on every PR | T1 | NIST SSDF PO.3<br>DevOps continuous integration practice | Implemented | [.github/workflows/assurance.yml](.github/workflows/assurance.yml) |
 | ENG-03 | Pre-commit hooks block common defects before commit | T1 | NIST SSDF PW.7 | Implemented | [.pre-commit-config.yaml](.pre-commit-config.yaml) |
 | ENG-04 | Automated tests exist and run in CI | T1 | NIST SSDF PW.8<br>ISO/IEC/IEEE 12207 (verification process) | Implemented | [tests/test_controls.py](tests/test_controls.py) |
