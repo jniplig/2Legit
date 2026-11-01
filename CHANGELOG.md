@@ -6,6 +6,7 @@ Format follows Keep a Changelog. Versions follow Semantic Versioning.
 ### Added
 - Claude Code hook that runs lint and tests after every AI edit (control AI-06)
 - Branch protection on main, with exported evidence (control ENG-01)
+- Standards source register, per-control lifecycle phase, enforcement type and limits, with CI checks (control GOV-04)
 
 ## [0.1.0]
 ### Added

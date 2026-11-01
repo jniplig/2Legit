@@ -11,7 +11,9 @@ def _control(**overrides):
         "title": "t",
         "layer": "governance",
         "min_tier": "T1",
-        "standards": ["s"],
+        "standards": [{"source": "ssdf", "ref": "PW.8 Test Executable Code"}],
+        "applied_in": [6],
+        "enforced_by": "automated",
         "evidence": [],
         "status": "planned",
     }

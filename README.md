@@ -15,6 +15,8 @@ trust.
 3. **CI enforces them.** A control marked `implemented` fails the build if its evidence file is missing.
 4. **[TRUST.md](TRUST.md) is generated** from the matrix. It is never hand-edited, and it never claims planned controls.
 
+Every standards reference is traceable through [docs/standards.yaml](docs/standards.yaml), which records the official source, version, date checked and how much of each source was read.
+
 ## Layers and the standards they align with
 
 | Layer | Aligned with |
