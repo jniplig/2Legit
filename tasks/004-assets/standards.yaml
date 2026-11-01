@@ -1,0 +1,110 @@
+# 2Legit standards register: every standard or framework the control matrix cites.
+# Rules:
+#   - Every control reference must name a source key defined here.
+#   - "read" says how much of the source was actually reviewed. It limits what may be claimed:
+#       full    = whole document read
+#       partial = specific parts read (see note)
+#       toc     = only the publisher's public table of contents
+#       names   = only practice or category names confirmed
+#       none    = not read; controls may claim general alignment only
+#   - "verified_on" is the date the details below were checked against the official page.
+#   - Paid standards are listed with their official purchase page; 2Legit does not reproduce them.
+
+sources:
+  ssdf:
+    name: "Secure Software Development Framework (SSDF) Version 1.1"
+    id: "NIST SP 800-218"
+    publisher: "NIST"
+    version: "1.1"
+    published: "2022-02"
+    url: "https://csrc.nist.gov/pubs/sp/800/218/final"
+    doi: "https://doi.org/10.6028/NIST.SP.800-218"
+    access: free
+    read: partial
+    verified_on: "2026-11-01"
+    note: "Practice IDs and names (PO, PS, PW, RV) verified against the PDF. Individual tasks such as PO.3.1 are not mapped. A draft Rev. 1 (SSDF 1.2) was published for comment on 2025-12-17 and is not adopted here."
+
+  ai-rmf:
+    name: "Artificial Intelligence Risk Management Framework (AI RMF 1.0)"
+    id: "NIST AI 100-1"
+    publisher: "NIST"
+    version: "1.0"
+    published: "2023-01-26"
+    url: "https://www.nist.gov/itl/ai-risk-management-framework"
+    doi: "https://doi.org/10.6028/NIST.AI.100-1"
+    access: free
+    read: partial
+    verified_on: "2026-11-01"
+    note: "Sixteen Core subcategory statements verified (GOVERN 1.1, 1.4, 2.1, 4.1, 4.2, 6.1; MAP 1.1, 3.5; MEASURE 1.1, 2.1, 2.3, 2.5, 2.7; MANAGE 1.1, 2.2, 4.1). NIST states the framework is being revised."
+
+  iso-42001:
+    name: "Information technology, Artificial intelligence, Management system"
+    id: "ISO/IEC 42001:2023"
+    publisher: "ISO/IEC"
+    version: "Edition 1"
+    published: "2023-12"
+    url: "https://www.iso.org/standard/81230.html"
+    access: paid
+    read: none
+    verified_on: "2026-11-01"
+    note: "Purchase required; not read. It specifies requirements for an organisation's AI management system and is certifiable at organisation level. 2Legit cites it for general alignment only and makes no certification claim."
+
+  iso-12207:
+    name: "Systems and software engineering, Software life cycle processes"
+    id: "ISO/IEC/IEEE 12207:2017"
+    publisher: "ISO/IEC/IEEE"
+    version: "Edition 1"
+    published: "2017-11"
+    url: "https://www.iso.org/standard/63712.html"
+    access: paid
+    read: toc
+    verified_on: "2026-11-01"
+    note: "Clause numbers and process names verified from the publisher's public table-of-contents preview. Normative text not read. ISO lists the standard as due for revision."
+
+  owasp-llm:
+    name: "OWASP Top 10 for LLM Applications 2025"
+    id: "OWASP LLM Top 10 (2025)"
+    publisher: "OWASP GenAI Security Project"
+    version: "2025"
+    published: "2024-11"
+    url: "https://genai.owasp.org/llm-top-10/"
+    access: free
+    read: partial
+    verified_on: "2026-11-01"
+    note: "Entry IDs LLM01:2025 to LLM10:2025 and their names verified on the official page."
+
+  scorecard:
+    name: "OpenSSF Scorecard checks"
+    id: "OpenSSF Scorecard"
+    publisher: "OpenSSF"
+    version: "documentation on main branch"
+    published: "continuously updated"
+    url: "https://github.com/ossf/scorecard/blob/main/docs/checks.md"
+    access: free
+    read: partial
+    verified_on: "2026-11-01"
+    note: "Check names and descriptions verified. No Scorecard check detects committed secrets. Re-verify before external use because the documentation changes."
+
+  dora:
+    name: "DORA software delivery metrics"
+    id: "DORA"
+    publisher: "DORA (Google Cloud)"
+    version: "current guide"
+    published: "continuously updated"
+    url: "https://dora.dev/guides/dora-metrics-four-keys"
+    access: free
+    read: partial
+    verified_on: "2026-11-01"
+    note: "The current official guide lists five metrics: change lead time, deployment frequency, failed deployment recovery time, change fail rate and deployment rework rate. Older material refers to four key metrics."
+
+  itil4:
+    name: "ITIL 4 management practices"
+    id: "ITIL 4"
+    publisher: "PeopleCert (ITIL, formerly AXELOS)"
+    version: "ITIL 4"
+    published: "2019, practice guidance revised 2023"
+    url: "https://www.peoplecert.org/news-and-announcements/itil-4-management-practices-2023"
+    access: paid
+    read: names
+    verified_on: "2026-11-01"
+    note: "Practice names confirmed from official AXELOS and PeopleCert pages and a published practice list; the practice guides are paywalled and were not read. The name Service continuity management comes from a secondary source."

@@ -1,0 +1,310 @@
+# 2Legit control matrix: single source of truth for TRUST.md.
+#
+# Fields:
+#   id, title, layer, min_tier (T0 < T1 < T2), status (implemented | planned)
+#   standards   list of {source, ref}; source must be a key in docs/standards.yaml.
+#               Use an empty list plus "basis: project-specific" when no standard applies.
+#   applied_in  lifecycle phases (1-10, see docs/TIERS.md) where the control operates.
+#   enforced_by automated = a tool or setting enforces it; process = relies on people following a document.
+#   evidence    repo paths that prove the control exists (checked by CI for implemented controls).
+#   note        optional: honest limits of the control.
+#
+# Rules:
+#   - implemented requires every evidence path to exist.
+#   - planned is never claimed as in place in TRUST.md.
+#   - References are "aligned with" mappings, not certification claims.
+
+controls:
+  # ---- Governance ----
+  - id: GOV-01
+    title: Project charter states purpose, owner, tier and data classification
+    layer: governance
+    min_tier: T1
+    standards:
+      - {source: iso-12207, ref: "6.3.1 Project Planning process"}
+      - {source: ai-rmf, ref: "MAP 1.1 (intended purposes and context documented)"}
+    applied_in: [1]
+    enforced_by: process
+    evidence: [docs/CHARTER.md]
+    status: implemented
+  - id: GOV-02
+    title: Significant decisions are recorded with context and consequences
+    layer: governance
+    min_tier: T1
+    standards:
+      - {source: iso-12207, ref: "6.3.3 Decision Management process"}
+    applied_in: [2, 5]
+    enforced_by: process
+    evidence: [docs/DECISIONS.md]
+    status: implemented
+  - id: GOV-03
+    title: Assurance tier is declared and lifecycle gates are defined per tier
+    layer: governance
+    min_tier: T0
+    standards:
+      - {source: iso-12207, ref: "6.2.1 Life cycle model management process"}
+    applied_in: [1, 2, 3]
+    enforced_by: process
+    evidence: [docs/TIERS.md]
+    status: implemented
+  - id: GOV-04
+    title: Every cited standard is listed in a register with source, version, date checked and how much was read
+    layer: governance
+    min_tier: T1
+    basis: project-specific
+    standards: []
+    applied_in: [2, 10]
+    enforced_by: automated
+    evidence: [docs/standards.yaml]
+    status: implemented
+    note: "CI rejects references to sources missing from the register. It cannot check that the reference itself is apt; that is a human judgement."
+
+  # ---- Engineering controls ----
+  - id: ENG-01
+    title: Default branch is protected; changes merge by pull request only
+    layer: engineering
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "PS.1 Protect All Forms of Code from Unauthorized Access and Tampering"}
+      - {source: scorecard, ref: "Branch-Protection"}
+    applied_in: [3, 7]
+    enforced_by: automated
+    evidence: []
+    status: planned
+  - id: ENG-02
+    title: CI runs lint, tests, matrix validation and TRUST.md freshness on every PR
+    layer: engineering
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "PO.3 Implement Supporting Toolchains"}
+      - {source: scorecard, ref: "CI-Tests"}
+    applied_in: [3, 6, 7]
+    enforced_by: automated
+    evidence: [.github/workflows/assurance.yml]
+    status: implemented
+  - id: ENG-03
+    title: Pre-commit hooks block common defects before commit
+    layer: engineering
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "PW.7 Review and/or Analyze Human-Readable Code"}
+    applied_in: [5]
+    enforced_by: automated
+    evidence: [.pre-commit-config.yaml]
+    status: implemented
+    note: "Runs on the developer's machine and can be bypassed with --no-verify. CI re-runs lint only."
+  - id: ENG-04
+    title: Automated tests exist and run in CI
+    layer: engineering
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "PW.8 Test Executable Code"}
+      - {source: iso-12207, ref: "6.4.9 Verification process"}
+      - {source: scorecard, ref: "CI-Tests"}
+    applied_in: [6]
+    enforced_by: automated
+    evidence: [tests/test_controls.py]
+    status: implemented
+
+  # ---- AI controls ----
+  - id: AI-01
+    title: A written task brief precedes AI-generated code
+    layer: ai
+    min_tier: T1
+    standards:
+      - {source: iso-12207, ref: "6.4.3 System/Software requirements definition process"}
+    applied_in: [5]
+    enforced_by: process
+    evidence: [docs/templates/task-brief.md]
+    status: implemented
+    note: "Nothing technical stops code being written without a brief."
+  - id: AI-02
+    title: Every pull request declares whether and how AI was used
+    layer: ai
+    min_tier: T1
+    standards:
+      - {source: ai-rmf, ref: "GOVERN 2.1 (roles and responsibilities documented)"}
+      - {source: iso-42001, ref: "General alignment only (clauses not reviewed)"}
+    applied_in: [7]
+    enforced_by: process
+    evidence: [.github/pull_request_template.md]
+    status: implemented
+    note: "The template prompts for a declaration; GitHub cannot verify that it is complete or true."
+  - id: AI-03
+    title: AI-generated changes are reviewed by someone other than the generator
+    layer: ai
+    min_tier: T1
+    standards:
+      - {source: ai-rmf, ref: "MAP 3.5: Processes for human oversight are defined, assessed, and documented"}
+      - {source: ssdf, ref: "PW.7 Review and/or Analyze Human-Readable Code"}
+      - {source: scorecard, ref: "Code-Review"}
+    applied_in: [7]
+    enforced_by: process
+    evidence: [.github/pull_request_template.md, docs/AI_USE_POLICY.md]
+    status: implemented
+    note: "Solo project: GitHub requires zero approvals, so reviewer independence rests on the documented process. Expect a low Scorecard Code-Review result."
+  - id: AI-04
+    title: A written AI-use policy defines allowed use, review rules and data limits
+    layer: ai
+    min_tier: T1
+    standards:
+      - {source: ai-rmf, ref: "GOVERN 1.4 (risk management through transparent policies)"}
+      - {source: iso-42001, ref: "General alignment only (clauses not reviewed)"}
+    applied_in: [2, 5]
+    enforced_by: process
+    evidence: [docs/AI_USE_POLICY.md]
+    status: implemented
+  - id: AI-05
+    title: Apps that call LLMs version prompts and keep an eval set with expected outputs
+    layer: ai
+    min_tier: T2
+    standards:
+      - {source: ai-rmf, ref: "MEASURE 2.1 (test sets, metrics and tools documented)"}
+      - {source: owasp-llm, ref: "LLM05:2025 Improper Output Handling"}
+    applied_in: [5, 6]
+    enforced_by: automated
+    evidence: []
+    status: planned
+  - id: AI-06
+    title: Lint and tests run automatically after every AI edit
+    layer: ai
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "PO.3 Implement Supporting Toolchains"}
+      - {source: ssdf, ref: "PW.7 Review and/or Analyze Human-Readable Code"}
+      - {source: ssdf, ref: "PW.8 Test Executable Code"}
+    applied_in: [5, 6]
+    enforced_by: automated
+    evidence: [.claude/settings.json]
+    status: implemented
+    note: "Fires only in Claude Code sessions opened in this project (proved by a live test on 2026-11-01). Hand edits rely on pre-commit and CI. Uses a Windows-only interpreter path."
+
+  # ---- Security ----
+  - id: SEC-01
+    title: Secret scanning runs before every commit
+    layer: security
+    min_tier: T0
+    standards:
+      - {source: ssdf, ref: "PW.7 Review and/or Analyze Human-Readable Code"}
+    applied_in: [5]
+    enforced_by: automated
+    evidence: [.pre-commit-config.yaml]
+    status: implemented
+    note: "Local only today and bypassable. No OpenSSF Scorecard check covers committed secrets. See SEC-05."
+  - id: SEC-02
+    title: Dependency updates are automated
+    layer: security
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "RV.1 Identify and Confirm Vulnerabilities on an Ongoing Basis"}
+      - {source: ssdf, ref: "PW.4 Reuse Existing, Well-Secured Software When Feasible"}
+      - {source: scorecard, ref: "Dependency-Update-Tool"}
+    applied_in: [10]
+    enforced_by: automated
+    evidence: [.github/dependabot.yml]
+    status: implemented
+  - id: SEC-03
+    title: A security policy tells people how to report vulnerabilities
+    layer: security
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "RV.1 Identify and Confirm Vulnerabilities on an Ongoing Basis"}
+      - {source: scorecard, ref: "Security-Policy"}
+    applied_in: [10]
+    enforced_by: process
+    evidence: [SECURITY.md]
+    status: implemented
+  - id: SEC-04
+    title: A software bill of materials is published with each release
+    layer: security
+    min_tier: T2
+    standards:
+      - {source: ssdf, ref: "PS.3 Archive and Protect Each Software Release"}
+      - {source: scorecard, ref: "SBOM"}
+    applied_in: [8]
+    enforced_by: automated
+    evidence: []
+    status: planned
+  - id: SEC-05
+    title: Secret scanning also runs in CI and GitHub push protection is enabled
+    layer: security
+    min_tier: T1
+    standards:
+      - {source: ssdf, ref: "PS.1 Protect All Forms of Code from Unauthorized Access and Tampering"}
+      - {source: ssdf, ref: "PW.7 Review and/or Analyze Human-Readable Code"}
+    applied_in: [3, 5]
+    enforced_by: automated
+    evidence: []
+    status: planned
+
+  # ---- Operations ----
+  - id: OPS-01
+    title: Changes are recorded in a changelog with each release
+    layer: operations
+    min_tier: T1
+    standards:
+      - {source: itil4, ref: "Change enablement"}
+      - {source: itil4, ref: "Release management"}
+    applied_in: [8]
+    enforced_by: process
+    evidence: [CHANGELOG.md]
+    status: implemented
+  - id: OPS-02
+    title: Incidents and their root causes are logged
+    layer: operations
+    min_tier: T1
+    standards:
+      - {source: itil4, ref: "Incident management"}
+      - {source: itil4, ref: "Problem management"}
+      - {source: ssdf, ref: "RV.3 Analyze Vulnerabilities to Identify Their Root Causes"}
+    applied_in: [10]
+    enforced_by: process
+    evidence: [docs/INCIDENTS.md]
+    status: implemented
+  - id: OPS-03
+    title: A runbook documents deploy, rollback and recovery
+    layer: operations
+    min_tier: T2
+    standards:
+      - {source: itil4, ref: "Service continuity management"}
+      - {source: iso-12207, ref: "6.4.12 Operation process"}
+    applied_in: [8, 10]
+    enforced_by: process
+    evidence: []
+    status: planned
+
+  # ---- Measurement ----
+  - id: MEA-01
+    title: Delivery metrics (change lead time, deployment frequency, failed deployment recovery time, change fail rate, deployment rework rate) are reported
+    layer: measurement
+    min_tier: T2
+    standards:
+      - {source: dora, ref: "Software delivery metrics (five, per the current guide)"}
+      - {source: iso-12207, ref: "6.3.7 Measurement process"}
+    applied_in: [10]
+    enforced_by: automated
+    evidence: []
+    status: planned
+
+  # ---- Trust ----
+  - id: TRU-01
+    title: TRUST.md is generated from this matrix and never hand-edited
+    layer: trust
+    min_tier: T1
+    basis: project-specific
+    standards: []
+    applied_in: [8]
+    enforced_by: automated
+    evidence: [TRUST.md, scripts/generate_trust.py]
+    status: implemented
+  - id: TRU-02
+    title: Each release ships an evidence bundle (test results, SBOM, review record, AI-use summary)
+    layer: trust
+    min_tier: T2
+    standards:
+      - {source: ssdf, ref: "PS.3 Archive and Protect Each Software Release"}
+      - {source: ssdf, ref: "PS.2 Provide a Mechanism for Verifying Software Release Integrity"}
+    applied_in: [8]
+    enforced_by: automated
+    evidence: []
+    status: planned
